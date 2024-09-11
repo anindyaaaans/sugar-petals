@@ -4,7 +4,6 @@
    - Saya juga menginisiasi repository Git pada direktori proyek dan membuat repository GitHub baru untuk menyimpan kode saya secara online. Setelah itu, saya mengunggah direktori lokal ke GitHub dengan perintah `git add`, `git commit`, dan `git push`.
 
 2. Membuat Aplikasi dengan Nama main:
-![Untitled design](https://github.com/user-attachments/assets/de19cafc-fc4b-411e-8ca9-44d1bd61f5b0)
    - Untuk membuat aplikasi main di dalam proyek, saya menjalankan perintah `python manage.py startapp main`. Ini membuat struktur folder baru yang nantinya akan saya gunakan untuk mengelola fitur aplikasi ini.
    - Setelah itu, saya mendaftarkan aplikasi main di dalam file `settings.py` dengan menambahkan main pada daftar `INSTALLED_APPS`.
 
@@ -30,6 +29,7 @@
    - Di file README.md, saya menjelaskan langkah-langkah yang saya lakukan untuk menyelesaikan tugas ini, serta menambahkan link ke aplikasi yang sudah di-deploy di PWS.
 
 ## 2. Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html
+![Untitled design](https://github.com/user-attachments/assets/ad5fc895-6867-474f-a174-be8810fc168a)
 - ```urls.py``` bertugas untuk menentukan ke view mana request akan diarahkan.
 - ```views.py``` berfungsi untuk menangani logika bisnis dan memutuskan bagaimana request diproses.
 - ```models.py``` mengelola interaksi dengan database, bila ada data yang perlu diambil atau disimpan.
