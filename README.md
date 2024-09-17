@@ -91,7 +91,7 @@ URL untuk menampilkan data XML berdasarkan ID
 URL untuk menampilkan data JSON berdasarkan ID
 
 ## Mengakses keempat URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman, dan menambahkannya ke dalam README.md.
-![Screenshot 2024-09-17 211810](https://github.com/user-attachments/assets/d69c4878-02b4-45c![Screenshot 2024-09-17 211833](https://github.com/user-attachments/assets/a03cda96-9cd4-4f26-a173-6be5337f7a04)
-6-87e4-dc44c2905804)
+![Screenshot 2024-09-17 211810](https://github.com/user-attachments/assets/d69c4878-02b4-45c6-87e4-dc44c2905804)
+![Screenshot 2024-09-17 211833](https://github.com/user-attachments/assets/a03cda96-9cd4-4f26-a173-6be5337f7a04)
 ![Screenshot 2024-09-17 211851](https://github.com/user-attachments/assets/eb02b667-2a9e-4e5f-8298-075b7ef33a35)
 ![Screenshot 2024-09-17 211916](https://github.com/user-attachments/assets/87a8d6b7-36ea-4a4e-8b34-c3bb3e0a5999)
