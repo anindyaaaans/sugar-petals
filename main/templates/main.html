@@ -1,8 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
 <h1>Sugar Petals</h1>
 
 <h5>NPM: </h5>
-<p>{{ npm }}</p> <!-- Ubah sesuai dengan npm kamu -->
-<h5>Name: </h5>
-<p>{{ name }}</p> <!-- Ubah sesuai dengan nama kamu -->
-<h5>Class: </h5>
-<p>{{ class }}</p> <!-- Ubah sesuai dengan kelas kamu -->
+<p>{{ npm }}<p>
+
+<h5>Name:</h5>
+<p>{{ name }}</p>
+
+<h5>Class:</h5>
+<p>{{ class }}</p>
+
+{% if not product_entries %}
+<p>Belum ada data product pada sugar petals.</p>
+{% else %}
+<table>
+  <tr>
+    <th>Product Name</th>
+    <th>Price</th>
+    <th>Description</th>
+    <th>Sweet Level</th>
+  </tr>
+
+  {% comment %} Berikut cara memperlihatkan data product di bawah baris ini 
+  {% endcomment %} 
+  {% for product in product_entries %}
+  <tr>
+    <td>{{product.name}}</td>
+    <td>{{product.price}}</td>
+    <td>{{product.description}}</td>
+    <td>{{product.sweet_level}}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+<br />
+
+<a href="{% url 'main:create_product_entry' %}">
+  <button>Add New Product Entry</button>
+</a>
+{% endblock content %}
