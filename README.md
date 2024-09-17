@@ -1,3 +1,5 @@
+## TUGAS 2
+
 ## 1. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
 1. Membuat Proyek Django Baru:
    - Langkah pertama yang saya lakukan adalah membuat direktori baru untuk proyek ini, lalu menjalankan perintah `django-admin startproject myproject` untuk memulai proyek Django.
@@ -52,3 +54,44 @@ Model di Django disebut ORM (Object-Relational Mapping) karena memungkinkan peng
 - Pengembang cukup menggunakan objek Python tanpa harus menulis SQL langsung.
 - Django ORM mendukung berbagai jenis database, sehingga jika ingin mengganti database, cukup ubah konfigurasi tanpa merombak kode model.
 - ORM melindungi dari serangan SQL injection, karena query dibentuk secara otomatis oleh Django.
+
+
+## TUGAS 3
+
+## 1. Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
+Data delivery memastikan bahwa berbagai bagian dari sebuah sistem (atau antar sistem) dapat berkomunikasi dengan efektif. Hal ini memungkinkan platform untuk bertukar informasi antara frontend dan backend, atau antar layanan, sehingga data dapat diakses dan digunakan.
+
+## 2. Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
+Menurut saya JSON lebih baik karena lebih sederhana, lebih populer, dan mudah dibaca dibandingkan XML. Format pasangan key-value JSON lebih mudah diolah di sebagian besar programming environments, terutama JavaScript, sehingga menjadi pilihan utama untuk API dan web services.
+
+## 3. Jelaskan fungsi dari method is_valid() pada form Django dan mengapa kita membutuhkan method tersebut?
+Method `is_valid()` digunakan untuk memeriksa apakah data dalam form sesuai dengan aturan validasi yang telah ditentukan. Hal ini memastikan bahwa hanya data yang valid yang diproses dan disimpan, sehingga mencegah terjadinya kesalahan atau masalah keamanan.
+
+## 4. Mengapa kita membutuhkan csrf_token saat membuat form di Django? Apa yang dapat terjadi jika kita tidak menambahkan csrf_token pada form Django? Bagaimana hal tersebut dapat dimanfaatkan oleh penyerang?
+ `csrf_token` adalah langkah keamanan untuk melindungi aplikasi dari serangan Cross-Site Request Forgery (CSRF). Tanpa token ini, penyerang dapat menipu pengguna untuk mengirimkan form berbahaya di situs kita. Token ini memastikan bahwa pengiriman form benar-benar berasal dari sumber yang terpercaya.
+
+## 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+1. Membuat Input Form untuk Menambahkan Objek Model
+- Saya membuat form di Django menggunakan `ModelForm` untuk model Product. Form ini didefinisikan di file `forms.py`, dan di dalamnya saya menyertakan field yang relevan dari model Product.
+- Di `views.py`, saya membuat fungsi yang menangani request untuk menambahkan objek Product. Fungsi ini memvalidasi form, dan jika valid, data baru akan disimpan ke database. Jika tidak valid, form akan ditampilkan kembali dengan pesan error.
+- Saya membuat template HTML yang menampilkan form tersebut, dimana pengguna dapat mengisi data dan mengirimkannya melalui metode POST.
+- Terakhir, saya menambahkan path di `urls.py` untuk menghubungkan URL ke view yang menangani form, sehingga pengguna dapat mengakses form melalui browser.
+
+2. Menambahkan 4 Fungsi Views untuk Menampilkan Data dalam Format XML, JSON, XML by ID, dan JSON by ID
+- Saya membuat fungsi di `views.py` yang mengambil semua data objek Product dari database menggunakan query seperti `Product.objects.all()`, kemudian mengonversinya menjadi format XML dan mengembalikan hasilnya dalam `HttpResponse`.
+- Saya membuat fungsi serupa untuk menampilkan data Product dalam format JSON.
+- Saya membuat fungsi yang mengambil data Product berdasarkan ID menggunakan query `Product.objects.filter(pk=id)` dan mengembalikan hasilnya dalam format XML.
+- Fungsi ini mirip dengan yang menampilkan data XML berdasarkan ID, namun hasilnya dikembalikan dalam format JSON.
+
+3. Membuat Routing URL untuk Masing-masing Views
+- Saya menambahkan path di `urls.py` untuk menghubungkan URL ke masing-masing fungsi view yang sudah dibuat.
+URL untuk menampilkan data dalam format XML
+URL untuk menampilkan data dalam format JSON
+URL untuk menampilkan data XML berdasarkan ID
+URL untuk menampilkan data JSON berdasarkan ID
+
+## Mengakses keempat URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman, dan menambahkannya ke dalam README.md.
+![Screenshot 2024-09-17 211810](https://github.com/user-attachments/assets/d69c4878-02b4-45c![Screenshot 2024-09-17 211833](https://github.com/user-attachments/assets/a03cda96-9cd4-4f26-a173-6be5337f7a04)
+6-87e4-dc44c2905804)
+![Screenshot 2024-09-17 211851](https://github.com/user-attachments/assets/eb02b667-2a9e-4e5f-8298-075b7ef33a35)
+![Screenshot 2024-09-17 211916](https://github.com/user-attachments/assets/87a8d6b7-36ea-4a4e-8b34-c3bb3e0a5999)
