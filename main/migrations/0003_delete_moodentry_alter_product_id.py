@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             name='MoodEntry',
         ),
         migrations.AlterField(
-            model_  name='product',
+            model_name='product',
             name='id',
             field=models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False),
         ),
