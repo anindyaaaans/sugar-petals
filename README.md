@@ -115,7 +115,7 @@ Setiap kali sebuah `Product` dibuat atau diakses, Django menggunakan referensi `
 
 Dengan parameter `on_delete=models.CASCADE`, jika sebuah pengguna dihapus, Django secara otomatis akan menghapus semua produk yang terkait dengan pengguna tersebut. Ini terjadi karena Django menjalankan perintah di level database untuk melakukan "cascade delete", yang memastikan tidak ada produk yang terlepas tanpa pemilik.
 
-4. Akses data via query Django:
+4. Akses data via query Django
 
 Ketika saya melakukan query, seperti mengambil semua produk yang dimiliki oleh pengguna, Django memanfaatkan relasi tersebut untuk melakukan join antar tabel `Product` dan `User` di database. Django kemudian mengembalikan semua produk yang sesuai dengan pengguna yang diminta. Relasi ini memungkinkan pengambilan data yang efisien dan terstruktur, karena `ForeignKey` menghubungkan data antar model dengan cara yang sangat optimal di belakang layar.
 
