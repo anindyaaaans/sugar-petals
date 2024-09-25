@@ -95,3 +95,98 @@ URL untuk menampilkan data JSON berdasarkan ID
 ![Screenshot 2024-09-17 211833](https://github.com/user-attachments/assets/a03cda96-9cd4-4f26-a173-6be5337f7a04)
 ![Screenshot 2024-09-17 211851](https://github.com/user-attachments/assets/eb02b667-2a9e-4e5f-8298-075b7ef33a35)
 ![Screenshot 2024-09-17 211916](https://github.com/user-attachments/assets/87a8d6b7-36ea-4a4e-8b34-c3bb3e0a5999)
+
+## TUGAS 4
+
+## 1. Apa perbedaan antara `HttpResponseRedirect()` dan `redirect()`**
+- **`HttpResponseRedirect()`**adalah fungsi bawaan Django yang digunakan untuk mengarahkan pengguna ke URL tertentu dengan membuat objek HTTP response secara eksplisit. Fungsi ini memerlukan URL lengkap sebagai argumen dan biasanya dipakai ketika *developer* membutuhkan kontrol penuh atas URL tujuan. Misalnya, jika URL tujuan sudah diketahui atau ingin dihasilkan secara manual, **`HttpResponseRedirect()`** dapat digunakan untuk memberikan pengalihan yang jelas. Fungsi ini juga sering digunakan setelah suatu tindakan spesifik, misalnya setelah pengguna berhasil login atau mengirimkan formulir dengan memanfaatkan URL yang ditentukan.
+- **`redirect()`**adalah fungsi *shortcut* di Django dengan cara lebih sederhana dan fleksibel. Selain dapat menerima URL lengkap, fungsi ini juga dapat menggunakan nama *view,* yang kemudian akan secara otomatis di-*resolve* menjadi URL yang benar. Hal ini mengurangi kerumitan penulisan URL secara manual dan mempermudah proses pengalihan, terutama ketika *developer* hanya perlu menyebutkan nama *view* atau objek yang terkait. Fungsi ini sangat berguna dalam berbagai situasi, seperti ketika ingin mengarahkan pengguna setelah tindakan tertentu tanpa harus mengetahui URL yang tepat, karena Django akan menangani pencarian rute tersebut.
+
+## 2. Jelaskan cara kerja penghubungan model `Product` dengan `User`!**
+1. Relasi database yang terbentuk
+
+Ketika saya menambahkan `ForeignKey` pada model `Product` yang merujuk ke model `User`, Django secara otomatis membuat relasi "many-to-one" di dalam database. Ini berarti bahwa banyak produk (`Product`) bisa dimiliki oleh satu pengguna (`User`). Di database, `ForeignKey` ini akan menjadi sebuah kolom di tabel `Product` yang menyimpan `primary key` dari tabel `User`.
+
+2. Penambahan referensi pengguna di model Product
+
+Setiap kali sebuah `Product` dibuat atau diakses, Django menggunakan referensi `ForeignKey` tersebut untuk menentukan pengguna mana yang terkait dengan produk tersebut. Misalnya, saat sebuah produk disimpan, Django akan memasukkan nilai `primary key` dari pengguna (biasanya `user.id`) ke kolom `user_id` di tabel `Product`. Ini menghubungkan produk tersebut dengan pengguna.
+
+3. Cascading saat penghapusan data
+
+Dengan parameter `on_delete=models.CASCADE`, jika sebuah pengguna dihapus, Django secara otomatis akan menghapus semua produk yang terkait dengan pengguna tersebut. Ini terjadi karena Django menjalankan perintah di level database untuk melakukan "cascade delete", yang memastikan tidak ada produk yang terlepas tanpa pemilik.
+
+4. Akses data via query Django:
+
+Ketika saya melakukan query, seperti mengambil semua produk yang dimiliki oleh pengguna, Django memanfaatkan relasi tersebut untuk melakukan join antar tabel `Product` dan `User` di database. Django kemudian mengembalikan semua produk yang sesuai dengan pengguna yang diminta. Relasi ini memungkinkan pengambilan data yang efisien dan terstruktur, karena `ForeignKey` menghubungkan data antar model dengan cara yang sangat optimal di belakang layar.
+
+## 2. Apa perbedaan antara *authentication* dan *authorization*, apakah yang dilakukan saat pengguna login? Jelaskan bagaimana Django mengimplementasikan kedua konsep tersebut.**
+
+*Authentication* (Autentikasi)
+
+- *Authentication* adalah proses untuk memverifikasi siapa *user* yang melakukan login ke aplikasi. Tujuan utama autentikasi adalah memastikan bahwa pengguna yang mencoba mengakses aplikasi adalah individu yang mereka klaim.
+- Di Django, autentikasi dapat dilakukan menggunakan `UserCreationForm` untuk membuat akun baru, dan `AuthenticationForm` untuk proses login. Saat pengguna memasukkan kredensial mereka, Django akan memverifikasi informasi tersebut.
+
+*Authorization* (Otorisasi)
+
+- *Authorization* adalah proses untuk memverifikasi bahwa pengguna memiliki akses ke sumber daya tertentu. Setelah pengguna berhasil diautentikasi, sistem akan memeriksa apakah pengguna memiliki hak akses untuk melakukan tindakan tertentu atau mengakses halaman tertentu dalam aplikasi.
+- Di Django, otorisasi dapat dikelola menggunakan *decorator* seperti `@login_required`, yang memastikan bahwa hanya pengguna yang telah terautentikasi yang dapat mengakses tampilan tertentu.
+
+Saat pengguna melakukan login, prosesnya adalah sebagai berikut:
+
+- Pengguna mengisi formulir login dengan *username* dan *password*.
+- Django menggunakan `AuthenticationForm` untuk memverifikasi kredensial pengguna.
+- Jika autentikasi berhasil, Django akan memulai sesi untuk pengguna menggunakan `login()`.
+- Setelah login, pengguna dapat diarahkan ke halaman utama jika otorisasi berhasil.
+
+## 4. Bagaimana Django mengingat pengguna yang telah login? Jelaskan kegunaan lain dari *cookies* dan apakah semua cookies aman digunakan?**
+
+Django mengingat pengguna yang telah login menggunakan *session*. Saat pengguna login, Django membuat *session ID* yang unik dan menyimpannya dalam *cookies* di sisi klien. Informasi pengguna disimpan di server. Ketika pengguna berpindah halaman, *browser* mengirimkan *session ID* ke *server*, memungkinkan Django untuk mengenali pengguna dan menjaga sesi login tanpa meminta mereka untuk login ulang.
+
+Selain menyimpan *session ID, cookies* memiliki beberapa kegunaan, yaitu:
+
+- Menyimpan preferensi pengguna, seperti bahasa dan tema.
+- Mengumpulkan data analitik tentang perilaku pengguna.
+- Menyimpan informasi seperti item di keranjang belanja.
+- Memungkinkan pengguna tetap login setelah menutup *browser*.
+
+*Cookies* tidak selalu aman karena rentan terhadap serangan seperti *Cross-Site Scripting* (XSS), di mana skrip jahat dapat mengakses informasi dalam *cookies*. Untuk meningkatkan keamanan, *cookies* harus menggunakan atribut `Secure` agar hanya dikirim melalui HTTPS dan atribut SameSite untuk mencegah pengiriman dalam permintaan lintas situs atau  bisa dibilang melindungi dari *Cross-Site Request Forgery* (CSRF). Selain itu, *cookies* tanpa batas waktu dapat bertahan lebih lama dari yang diperlukan meningkatkan risiko jika menyimpan informasi sensitif.
+
+## 5. Jelaskan bagaimana cara kamu mengimplementasikan *checklist* di atas secara *step-by-step* (bukan hanya sekadar mengikuti tutorial).**
+
+1. Mengimplementasikan fungsi registrasi, login, dan logout untuk memungkinkan pengguna untuk mengakses aplikasi sebelumnya dengan lancar.
+
+Registrasi:
+
+- Pertama, saya membuat form registrasi dengan menggunakan `UserCreationForm` dari Django.
+- Kemudian, saya membuat view untuk menangani pendaftaran pengguna baru. Di sini, saya memeriksa apakah data form valid, lalu menyimpan data pengguna baru ke database.
+- Setelah registrasi berhasil, pengguna bisa dialihkan ke halaman login atau langsung login.
+- Saya juga menambahkan URL *routing* yang mengarah ke halaman registrasi.
+
+Login:
+
+- Untuk login, saya menggunakan `AuthenticationForm` yang disediakan oleh Django untuk memverifikasi kredensial pengguna (username dan password).
+- Di dalam view login, saya memeriksa apakah form login valid, lalu mengautentikasi pengguna.
+- Jika berhasil, saya mengarahkan pengguna ke halaman utama dan menyimpan informasi sesi pengguna.
+
+Logout:
+
+- Logout diimplementasikan menggunakan fungsi `logout(request)` dari Django. Fungsi ini menghapus sesi pengguna yang aktif.
+- Setelah pengguna logout, saya mengarahkan mereka ke halaman login kembali atau halaman utama dengan status logout.
+
+2. ****Membuat **dua** akun pengguna dengan masing-masing **tiga** *dummy data* menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun **di lokal**.
+
+- Saya sudah membuat dua akun pengguna secara manual di database.
+- Setelah akun dibuat, saya membuat beberapa dummy data produk terkait dengan setiap akun. Untuk setiap akun, saya membuat tiga entri produk menggunakan model Product.
+
+3. Menghubungkan model `Product` dengan `User`.
+
+- Saya menambahkan field `user` pada model Product dengan menggunakan ForeignKey yang mengacu pada model User. Ini menghubungkan setiap produk dengan pengguna yang membuatnya.
+- Dalam view yang menangani penambahan produk, saya memastikan bahwa produk yang ditambahkan terkait dengan pengguna yang sedang login (request.user).
+- Dengan menghubungkan produk dan pengguna, saya dapat melakukan *query* untuk mendapatkan semua produk yang dimiliki oleh pengguna tertentu.
+
+4. Menampilkan detail informasi pengguna yang sedang *logged in* seperti *username* dan menerapkan `cookies` seperti `last login` pada halaman utama aplikasi.
+
+- Pada halaman utama, saya menampilkan informasi pengguna yang sedang login dengan menggunakan `request.user`.
+- Untuk menyimpan informasi tambahan, seperti waktu login terakhir, saya memanfaatkan fitur cookies dan `last_login` yang disimpan oleh Django secara otomatis di dalam middleware.
+- Saya menambahkan logika di dalam view untuk memeriksa dan menampilkan cookie `last_login` pada halaman utama.
+- Kemudian, saya mengupdate cookie setelah pengguna berhasil login.
