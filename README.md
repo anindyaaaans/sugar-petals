@@ -98,11 +98,11 @@ URL untuk menampilkan data JSON berdasarkan ID
 
 ## TUGAS 4
 
-## 1. Apa perbedaan antara `HttpResponseRedirect()` dan `redirect()`**
-- **`HttpResponseRedirect()`**adalah fungsi bawaan Django yang digunakan untuk mengarahkan pengguna ke URL tertentu dengan membuat objek HTTP response secara eksplisit. Fungsi ini memerlukan URL lengkap sebagai argumen dan biasanya dipakai ketika *developer* membutuhkan kontrol penuh atas URL tujuan. Misalnya, jika URL tujuan sudah diketahui atau ingin dihasilkan secara manual, **`HttpResponseRedirect()`** dapat digunakan untuk memberikan pengalihan yang jelas. Fungsi ini juga sering digunakan setelah suatu tindakan spesifik, misalnya setelah pengguna berhasil login atau mengirimkan formulir dengan memanfaatkan URL yang ditentukan.
-- **`redirect()`**adalah fungsi *shortcut* di Django dengan cara lebih sederhana dan fleksibel. Selain dapat menerima URL lengkap, fungsi ini juga dapat menggunakan nama *view,* yang kemudian akan secara otomatis di-*resolve* menjadi URL yang benar. Hal ini mengurangi kerumitan penulisan URL secara manual dan mempermudah proses pengalihan, terutama ketika *developer* hanya perlu menyebutkan nama *view* atau objek yang terkait. Fungsi ini sangat berguna dalam berbagai situasi, seperti ketika ingin mengarahkan pengguna setelah tindakan tertentu tanpa harus mengetahui URL yang tepat, karena Django akan menangani pencarian rute tersebut.
+## 1. Apa perbedaan antara `HttpResponseRedirect()` dan `redirect()`
+- `HttpResponseRedirect()` adalah fungsi bawaan Django yang digunakan untuk mengarahkan pengguna ke URL tertentu dengan membuat objek HTTP response secara eksplisit. Fungsi ini memerlukan URL lengkap sebagai argumen dan biasanya dipakai ketika *developer* membutuhkan kontrol penuh atas URL tujuan. Misalnya, jika URL tujuan sudah diketahui atau ingin dihasilkan secara manual, `HttpResponseRedirect()` dapat digunakan untuk memberikan pengalihan yang jelas. Fungsi ini juga sering digunakan setelah suatu tindakan spesifik, misalnya setelah pengguna berhasil login atau mengirimkan formulir dengan memanfaatkan URL yang ditentukan.
+- `redirect()` adalah fungsi *shortcut* di Django dengan cara lebih sederhana dan fleksibel. Selain dapat menerima URL lengkap, fungsi ini juga dapat menggunakan nama *view,* yang kemudian akan secara otomatis di-*resolve* menjadi URL yang benar. Hal ini mengurangi kerumitan penulisan URL secara manual dan mempermudah proses pengalihan, terutama ketika *developer* hanya perlu menyebutkan nama *view* atau objek yang terkait. Fungsi ini sangat berguna dalam berbagai situasi, seperti ketika ingin mengarahkan pengguna setelah tindakan tertentu tanpa harus mengetahui URL yang tepat, karena Django akan menangani pencarian rute tersebut.
 
-## 2. Jelaskan cara kerja penghubungan model `Product` dengan `User`!**
+## 2. Jelaskan cara kerja penghubungan model `Product` dengan `User`!
 1. Relasi database yang terbentuk
 
 Ketika saya menambahkan `ForeignKey` pada model `Product` yang merujuk ke model `User`, Django secara otomatis membuat relasi "many-to-one" di dalam database. Ini berarti bahwa banyak produk (`Product`) bisa dimiliki oleh satu pengguna (`User`). Di database, `ForeignKey` ini akan menjadi sebuah kolom di tabel `Product` yang menyimpan `primary key` dari tabel `User`.
@@ -119,7 +119,7 @@ Dengan parameter `on_delete=models.CASCADE`, jika sebuah pengguna dihapus, Djang
 
 Ketika saya melakukan query, seperti mengambil semua produk yang dimiliki oleh pengguna, Django memanfaatkan relasi tersebut untuk melakukan join antar tabel `Product` dan `User` di database. Django kemudian mengembalikan semua produk yang sesuai dengan pengguna yang diminta. Relasi ini memungkinkan pengambilan data yang efisien dan terstruktur, karena `ForeignKey` menghubungkan data antar model dengan cara yang sangat optimal di belakang layar.
 
-## 2. Apa perbedaan antara *authentication* dan *authorization*, apakah yang dilakukan saat pengguna login? Jelaskan bagaimana Django mengimplementasikan kedua konsep tersebut.**
+## 2. Apa perbedaan antara *authentication* dan *authorization*, apakah yang dilakukan saat pengguna login? Jelaskan bagaimana Django mengimplementasikan kedua konsep tersebut.
 
 *Authentication* (Autentikasi)
 
@@ -138,7 +138,7 @@ Saat pengguna melakukan login, prosesnya adalah sebagai berikut:
 - Jika autentikasi berhasil, Django akan memulai sesi untuk pengguna menggunakan `login()`.
 - Setelah login, pengguna dapat diarahkan ke halaman utama jika otorisasi berhasil.
 
-## 4. Bagaimana Django mengingat pengguna yang telah login? Jelaskan kegunaan lain dari *cookies* dan apakah semua cookies aman digunakan?**
+## 4. Bagaimana Django mengingat pengguna yang telah login? Jelaskan kegunaan lain dari *cookies* dan apakah semua cookies aman digunakan?
 
 Django mengingat pengguna yang telah login menggunakan *session*. Saat pengguna login, Django membuat *session ID* yang unik dan menyimpannya dalam *cookies* di sisi klien. Informasi pengguna disimpan di server. Ketika pengguna berpindah halaman, *browser* mengirimkan *session ID* ke *server*, memungkinkan Django untuk mengenali pengguna dan menjaga sesi login tanpa meminta mereka untuk login ulang.
 
@@ -151,7 +151,7 @@ Selain menyimpan *session ID, cookies* memiliki beberapa kegunaan, yaitu:
 
 *Cookies* tidak selalu aman karena rentan terhadap serangan seperti *Cross-Site Scripting* (XSS), di mana skrip jahat dapat mengakses informasi dalam *cookies*. Untuk meningkatkan keamanan, *cookies* harus menggunakan atribut `Secure` agar hanya dikirim melalui HTTPS dan atribut SameSite untuk mencegah pengiriman dalam permintaan lintas situs atau  bisa dibilang melindungi dari *Cross-Site Request Forgery* (CSRF). Selain itu, *cookies* tanpa batas waktu dapat bertahan lebih lama dari yang diperlukan meningkatkan risiko jika menyimpan informasi sensitif.
 
-## 5. Jelaskan bagaimana cara kamu mengimplementasikan *checklist* di atas secara *step-by-step* (bukan hanya sekadar mengikuti tutorial).**
+## 5. Jelaskan bagaimana cara kamu mengimplementasikan *checklist* di atas secara *step-by-step* (bukan hanya sekadar mengikuti tutorial).
 
 1. Mengimplementasikan fungsi registrasi, login, dan logout untuk memungkinkan pengguna untuk mengakses aplikasi sebelumnya dengan lancar.
 
@@ -173,7 +173,7 @@ Logout:
 - Logout diimplementasikan menggunakan fungsi `logout(request)` dari Django. Fungsi ini menghapus sesi pengguna yang aktif.
 - Setelah pengguna logout, saya mengarahkan mereka ke halaman login kembali atau halaman utama dengan status logout.
 
-2. ****Membuat **dua** akun pengguna dengan masing-masing **tiga** *dummy data* menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun **di lokal**.
+2. Membuat **dua** akun pengguna dengan masing-masing **tiga** *dummy data* menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun **di lokal**.
 
 - Saya sudah membuat dua akun pengguna secara manual di database.
 - Setelah akun dibuat, saya membuat beberapa dummy data produk terkait dengan setiap akun. Untuk setiap akun, saya membuat tiga entri produk menggunakan model Product.
