@@ -340,3 +340,4 @@ Contoh implementasi gabungan:
 - Template navigation bar (`navbar.html`) sudah saya buat, dan saya menambahkannya ke dalam `{% block content %}` di setiap halaman yang memerlukan navigasi.
 
 - Navigation bar dirancang agar responsif, menggunakan pengaturan `md:flex` untuk tampilan desktop dan `md:hidden` untuk tampilan mobile.
+
