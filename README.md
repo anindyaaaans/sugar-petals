@@ -190,3 +190,153 @@ Logout:
 - Untuk menyimpan informasi tambahan, seperti waktu login terakhir, saya memanfaatkan fitur cookies dan `last_login` yang disimpan oleh Django secara otomatis di dalam middleware.
 - Saya menambahkan logika di dalam view untuk memeriksa dan menampilkan cookie `last_login` pada halaman utama.
 - Kemudian, saya mengupdate cookie setelah pengguna berhasil login.
+
+## TUGAS 5
+
+## 1. Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+
+1. **`!important`**: Aturan dengan `!important` selalu memiliki prioritas tertinggi, mengesampingkan semua aturan lain, meskipun memiliki spesifisitas lebih rendah.
+2. **Inline styles**: Gaya yang didefinisikan langsung pada elemen HTML menggunakan atribut `style` memiliki prioritas tinggi.
+3. **ID selector**: Selector yang menggunakan ID (`#id`) memiliki prioritas lebih tinggi daripada selector lainnya seperti *class* dan elemen.
+4. **Class, attribute, dan pseudo-class selector**: Selector yang menggunakan *class* (`.class`), *attribute* (`[attr]`), atau *pseudo-class* (`:hover`, `:focus`) memiliki prioritas lebih rendah dibandingkan ID tetapi lebih tinggi dari selector elemen.
+5. **Element dan pseudo-element selector**: Selector yang mengacu pada elemen (`p`, `h1`, `div`, dll.) atau *pseudo-element* (`::before`, `::after`) memiliki prioritas terendah.
+
+## 2. Mengapa *responsive design* menjadi konsep yang penting dalam pengembangan aplikasi *web*? Berikan contoh aplikasi yang sudah dan belum menerapkan *responsive design*!
+
+*Responsive design* sangat penting karena:
+
+1. *User* dapat dengan mudah menjelajahi situs di perangkat apa pun tanpa perlu memperbesar atau menggeser layar, meningkatkan kenyamanan dan kepuasan.
+
+2. Google dan *search engine* lainnya lebih menyukai situs web yang responsif karena memberikan pengalaman pengguna yang lebih baik, sehingga meningkatkan peringkat pencarian.
+
+3. Dengan satu desain responsif, pengembang tidak perlu membuat versi terpisah untuk berbagai perangkat (misalnya, versi desktop dan mobile), sehingga lebih efisien dalam pengelolaan situs.
+
+4. Dengan banyaknya perangkat baru yang muncul, desain responsif memastikan situs web tetap relevan dan berfungsi baik di masa depan tanpa perlu perubahan besar.
+
+Contoh aplikasi yang sudah menerapkan *responsive design*:
+
+- Instagram web
+
+Contoh aplikasi yang belum menerapkan *responsive design:*
+
+- Situs web lama atau aplikasi yang hanya dikembangkan untuk desktop
+
+## 3. Jelaskan perbedaan antara *margin*, *border*, dan *padding*, serta cara untuk mengimplementasikan ketiga hal tersebut!
+- *Margin*
+
+*Margin* adalah ruang di luar elemen yang digunakan untuk mengatur jarak antar elemen. Margin bersifat transparan dan tidak terlihat. Contoh implementasi:
+
+```jsx
+<div style="margin: 10px;"> <!-- Margin sama untuk semua sisi -->
+    Ini adalah elemen dengan margin 10px di semua sisi.
+</div>
+
+<div style="margin-top: 20px; margin-bottom: 15px; margin-left: 5px; margin-right: 5px;">
+    Ini adalah elemen dengan margin yang berbeda untuk setiap sisi.
+</div>
+```
+
+- *Border*
+
+*Border* adalah garis yang mengelilingi elemen, terletak di antara *padding* dan *margin*. *Programmer* dapat mengatur warna, ketebalan, dan gaya *border*. Contoh implementasi:
+
+```jsx
+<div style="border: 3px solid black;"> <!-- Border solid hitam -->
+    Ini adalah elemen dengan border solid hitam.
+</div>
+
+<div style="border: 2px dashed red;"> <!-- Border garis putus-putus merah -->
+    Ini adalah elemen dengan border garis putus-putus merah.
+</div>
+
+<div style="border: 4px dotted blue; border-radius: 10px;"> <!-- Border garis titik biru dengan sudut bulat -->
+    Ini adalah elemen dengan border titik biru dan sudut dibulatkan.
+</div>
+```
+
+- *Padding*
+
+*Padding* adalah ruang di dalam elemen antara konten dan *border*. Ini memberikan jarak agar konten tidak menempel pada batas elemen. Contoh implementasi:
+
+```jsx
+<div style="padding: 20px; border: 1px solid black;"> <!-- Padding sama untuk semua sisi -->
+    Ini adalah elemen dengan padding 20px di semua sisi.
+</div>
+
+<div style="padding-top: 10px; padding-bottom: 20px; padding-left: 15px; padding-right: 15px; border: 1px solid black;">
+    Ini adalah elemen dengan padding yang berbeda untuk setiap sisi.
+</div>
+```
+
+| **Aspek** | ***Margin*** | ***Border*** | ***Padding*** |
+| --- | --- | --- | --- |
+| **Fungsi** | Jarak luar elemen | Garis pengeliling | Jarak dalam elemen |
+| **Warna** | Transparan | Memiliki warna | Sesuai background |
+| **Dampak** | Mempengaruhi jarak antar elemen | Tidak mempengaruhi tata letak | Mempengaruhi ukuran total elemen |
+
+Contoh implementasi gabungan:
+
+```jsx
+<div style="margin: 30px; border: 2px solid gray; padding: 15px;">
+    <p style="margin: 0;">Ini adalah konten di dalam elemen dengan margin, border, dan padding.</p>
+</div>
+
+<div style="margin: 20px; border: 3px dotted green; padding: 10px;">
+    <h2 style="margin: 0;">Contoh Elemen dengan Border Dotted</h2>
+    <p style="margin: 0;">Ini adalah teks di dalam elemen dengan border dotted hijau.</p>
+</div>
+```
+
+## 4. Jelaskan konsep *flex box* dan *grid layout* beserta kegunaannya!
+
+*Flexbox* dan g*rid layout* adalah dua cara untuk mengatur tampilan elemen di halaman web agar rapi dan responsif.
+
+*- Flexbox*
+
+- Mengatur elemen secara horizontal (baris) atau vertikal (kolom).
+- Elemen bisa otomatis menyesuaikan ukuran dan posisi sesuai ruang yang tersedia.
+- Tata letak sederhana seperti deretan kartu atau tombol.
+
+*- Grid layout*
+
+- Mengatur elemen dalam baris dan kolom.
+- Bisa membuat layout yang lebih terstruktur, seperti tabel atau halaman dengan beberapa bagian berbeda.
+- Cocok untuk halaman yang butuh desain lebih rumit dengan banyak area.
+
+## 5. Jelaskan bagaimana cara kamu mengimplementasikan *checklist* di atas secara *step-by-step* (bukan hanya sekadar mengikuti tutorial)!
+
+1. Mengimplementasikan fungsi edit dan hapus produk
+
+- Saya sudah menambahkan fungsi `edit_product(request, id)` dan `delete_product(request, id)` di `views.py`.
+
+- Kedua fungsi tersebut dirouting dengan menambahkan import dan path di `main/urls.py`.
+
+- Tombol edit dan hapus produk juga sudah ditambahkan di `main.html`.
+
+2. Pembuatan halaman dan template
+
+- Template `edit_product.html` sudah saya buat sebagai halaman untuk mengedit produk.
+
+- Pada setiap card produk di `main.html`, saya menambahkan tombol untuk mengedit dan menghapus, yang dihubungkan ke fungsi `edit_product` dan `delete_product`.
+
+3. Kustomisasi tampilan template HTML
+
+- Styling menggunakan Tailwind CSS, dengan menambahkannya di `base.html`.
+
+- Saya sudah mendesain halaman login, register, tambah produk, dan edit produk menggunakan Tailwind agar tampilannya lebih menarik.
+
+- Folder `static/image` dibuat untuk menyimpan foto yang digunakan di website.
+
+- Saya juga melakukan konfigurasi `STATIC_URL`, `STATICFILES_DIRS`, dan `STATIC_ROOT` di `settings.py` agar file statis dapat diakses, serta menambahkan `{% load static %}` di halaman yang memerlukannya.
+
+4. Card produk dan informasi store
+
+- Untuk menampilkan daftar produk, saya membuat `card_product.html` sebagai template kartu produk, dan halaman daftar produk dibuat responsif dengan menggunakan Flexbox.
+
+- Informasi nama, kelas, dan NPM saya tampilkan di `main.html` dengan menggunakan card `card_info.html`.
+
+5. Membuat navigasi dan menjadikannya responsif
+
+- Template navigation bar (`navbar.html`) sudah saya buat, dan saya menambahkannya ke dalam `{% block content %}` di setiap halaman yang memerlukan navigasi.
+
+- Navigation bar dirancang agar responsif, menggunakan pengaturan `md:flex` untuk tampilan desktop dan `md:hidden` untuk tampilan mobile.
