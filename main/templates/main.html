@@ -1,50 +1,72 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Sugar Petals</title>
+{% endblock meta %}
+
 {% block content %}
-<h1>Sugar Petals</h1>
+{% include 'navbar.html' %}
 
-<h5>NPM: </h5>
-<p>{{ npm }}<p>
+<div class="overflow-x-hidden px-4 md:px-8 pb-8 pt-24 min-h-screen bg-gradient-to-r from-pink-200 to-pink-400 flex flex-col"> <!-- Gradient background -->
+  <div class="p-6 mb-6 relative rounded-lg shadow-lg bg-white bg-opacity-80"> <!-- Added rounded corners and shadow -->
+    <div class="relative grid grid-cols-1 z-30 md:grid-cols-3 gap-8">
+      {% include "card_info.html" with title='NPM' value=npm %}
+      {% include "card_info.html" with title='Name' value=name %}
+      {% include "card_info.html" with title='Class' value=class %}
+    </div>
+    <div class="w-full px-6 absolute top-[44px] left-0 z-20 hidden md:flex">
+      <div class="w-full min-h-4 bg-pink-500 rounded-lg"> <!-- Rounded corners -->
+      </div>
+    </div>
+    <div class="h-full w-full py-6 absolute top-0 left-0 z-20 md:hidden flex">
+      <div class="h-full min-w-4 bg-pink-500 mx-auto rounded-lg"> <!-- Rounded corners -->
+      </div>
+    </div>
+  </div>
 
-<h5>Name:</h5>
-<p>{{ name }}</p>
+  <div class="px-3 mb-4">
+    <div class="flex rounded-md items-center bg-pink-500 py-2 px-4 w-fit"> 
+      <h1 class="text-white text-center">Last Login: {{ last_login }}</h1>
+    </div>
+  </div>
 
-<h5>Class:</h5>
-<p>{{ class }}</p>
+  {% if not product_entries %}
+  <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+    <img src="{% static 'image/sedih-banget.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
+    <p class="text-center text-gray-600 mt-4">Belum ada data product pada sugar petals.</p>
+  </div>
+  {% else %}
+  <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 w-full">
+    {% for product in product_entries %}
+      {% include 'card_product.html' with product=product %}
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
 
-{% if not product_entries %}
-<p>Belum ada data product pada sugar petals.</p>
-{% else %}
-<table>
-  <tr>
-    <th>Product Name</th>
-    <th>Price</th>
-    <th>Description</th>
-    <th>Sweet Level</th>
-  </tr>
+<style>
+  /* Custom hover effects for cards */
+  .card-info:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
 
-  {% comment %} Berikut cara memperlihatkan data product di bawah baris ini 
-  {% endcomment %} 
-  {% for product in product_entries %}
-  <tr>
-    <td>{{product.name}}</td>
-    <td>{{product.price}}</td>
-    <td>{{product.description}}</td>
-    <td>{{product.sweet_level}}</td>
-  </tr>
-  {% endfor %}
-</table>
-{% endif %}
+  /* Add some animations */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out forwards;
+  }
 
-<br />
-
-<a href="{% url 'main:create_product_entry' %}">
-  <button>Add New Product Entry</button>
-</a>
-
-<a href="{% url 'main:logout' %}">
-  <button>Logout</button>
-</a>
-
-<h5>Sesi terakhir login: {{ last_login }}</h5>
-
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
 {% endblock content %}

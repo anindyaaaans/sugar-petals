@@ -1,32 +1,74 @@
 {% extends 'base.html' %}
 
+{% load static %}  <!-- Load the static files tag library -->
+
 {% block meta %}
 <title>Login</title>
 {% endblock meta %}
 
 {% block content %}
-<div class="login">
-  <h1>Login</h1>
+<div class="min-h-screen flex items-center justify-center w-screen py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-pink-200 to-pink-400"> <!-- Gradient background -->
+  <div class="max-w-md w-full space-y-8 bg-white bg-opacity-90 rounded-lg shadow-2xl p-8">
+    <div class="text-center">
+      <img src="{% static 'image/Illustration.png' %}" alt="Illustration" class="w-24 h-24 mx-auto mb-4">
+      <h2 class="mt-6 text-3xl font-extrabold" style="color:#ff69b4; font-family: 'Poppins', sans-serif;">
+        Welcome Back!
+      </h2>
+      <p class="mt-2 text-lg text-pink-600 font-medium">Please log in to your account</p>
+    </div>
 
-  <form method="POST" action="">
-    {% csrf_token %}
-    <table>
-      {{ form.as_table }}
-      <tr>
-        <td></td>
-        <td><input class="btn login_btn" type="submit" value="Login" /></td>
-      </tr>
-    </table>
-  </form>
+    <form class="mt-8 space-y-6" method="POST" action="">
+      {% csrf_token %}
+      <input type="hidden" name="remember" value="true">
+      <div class="rounded-md shadow-sm -space-y-px">
+        <div>
+          <label for="username" class="sr-only">Username</label>
+          <input id="username" name="username" type="text" required class="appearance-none rounded-full relative block w-full px-4 py-3 border border-pink-300 placeholder-pink-500 text-gray-900 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm" placeholder="Username" style="transition: border 0.3s;">
+        </div>
+        <div>
+          <label for="password" class="sr-only">Password</label>
+          <input id="password" name="password" type="password" required class="appearance-none rounded-full relative block w-full px-4 py-3 border border-pink-300 placeholder-pink-500 text-gray-900 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm" placeholder="Password" style="transition: border 0.3s;">
+        </div>
+      </div>
 
-  {% if messages %}
-  <ul>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-  </ul>
-  {% endif %} Don't have an account yet?
-  <a href="{% url 'main:register' %}">Register Now</a>
+      <div>
+        <button type="submit" class="relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-full text-white transition duration-300 ease-in-out transform hover:scale-105 shadow-md hover:shadow-lg" style="background-color: #ff69b4; font-family: 'Poppins', sans-serif;">
+          <span class="flex items-center">
+            <img src="{% static 'image/icon.png' %}" alt="Icon" class="w-4 h-4 mr-2">
+            Sign In
+          </span>
+        </button>
+      </div>
+    </form>
+
+    {% if messages %}
+    <div class="mt-4">
+      {% for message in messages %}
+      {% if message.tags == "success" %}
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                <span class="block sm:inline">{{ message }}</span>
+            </div>
+        {% elif message.tags == "error" %}
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <span class="block sm:inline">{{ message }}</span>
+            </div>
+        {% else %}
+            <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative" role="alert">
+                <span class="block sm:inline">{{ message }}</span>
+            </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="text-center mt-4">
+      <p class="text-sm" style="color:#ff69b4; font-family: 'Poppins', sans-serif;">
+        Don't have an account yet?
+        <a href="{% url 'main:register' %}" class="font-medium" style="color:#ff1493;">
+          Register Now
+        </a>
+      </p>
+    </div>
+  </div>
 </div>
-
 {% endblock content %}
