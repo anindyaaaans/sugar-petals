@@ -341,3 +341,37 @@ Contoh implementasi gabungan:
 
 - Navigation bar dirancang agar responsif, menggunakan pengaturan `md:flex` untuk tampilan desktop dan `md:hidden` untuk tampilan mobile.
 
+## TUGAS 6
+
+## 1. Manfaat JavaScript dalam Web Development
+JavaScript berperan penting dalam membuat halaman web menjadi lebih interaktif dan dinamis. Dengan menggunakan JavaScript, kita dapat menambahkan berbagai fitur menarik, seperti validasi form untuk memastikan data yang dimasukkan pengguna benar, serta animasi yang mempercantik tampilan situs. Selain itu, JavaScript memungkinkan pengambilan data dari server secara langsung tanpa perlu memuat ulang halaman, berkat teknik yang dikenal sebagai AJAX. Yang membuat JavaScript semakin menarik adalah dukungannya yang luas di hampir semua jenis browser, sehingga pengguna dapat mengakses aplikasi web dengan baik di berbagai perangkat.
+
+## 2. Jelaskan fungsi dari penggunaan await ketika kita menggunakan fetch()! Apa yang akan terjadi jika kita tidak menggunakan await?
+Kata kunci `await` digunakan untuk menunggu hasil dari fungsi `fetch()` sebelum melanjutkan ke baris kode berikutnya. Ini sangat penting karena jika kita tidak menggunakan `await`, kode akan terus berjalan tanpa menunggu respons dari server. Hal ini dapat menyebabkan error atau hasil yang tidak diinginkan, karena data yang ingin kita akses mungkin belum siap untuk digunakan. Dengan kata lain, `await` memastikan bahwa kita mendapatkan hasil dari `fetch()` sebelum melanjutkan dengan proses yang memerlukan data tersebut.
+
+## 3. Mengapa kita perlu menggunakan decorator csrf_exempt pada view yang akan digunakan untuk AJAX POST?
+Decorator `csrf_exempt` sangat penting ketika kita bekerja dengan permintaan AJAX POST, karena fungsinya adalah untuk menonaktifkan pemeriksaan token CSRF (Cross-Site Request Forgery). Token CSRF adalah mekanisme keamanan yang digunakan untuk mencegah serangan yang memanfaatkan sesi pengguna yang sah. Ketika permintaan AJAX tidak mengirimkan token CSRF yang valid, server akan menolak permintaan tersebut. Dengan menggunakan `csrf_exempt`, kita memastikan bahwa permintaan AJAX tetap bisa diproses meskipun tidak ada token yang dikirimkan, terutama dalam situasi tertentu di mana token tidak dapat disertakan.
+
+## 4. Pada tutorial PBP minggu ini, pembersihan data input pengguna dilakukan di belakang (backend) juga. Mengapa hal tersebut tidak dilakukan di frontend saja?
+Pembersihan data input pengguna di backend sangat penting untuk menjaga keamanan aplikasi. Meskipun validasi dan pembersihan dilakukan di frontend, data tetap dapat dimanipulasi oleh pengguna yang berpotensi berbahaya. Dengan melakukan pembersihan di backend, kita dapat memastikan bahwa semua input yang diterima diperiksa ulang untuk mencegah serangan seperti XSS (Cross-Site Scripting) dan SQL Injection. Ini berarti bahwa backend bertindak sebagai lapisan perlindungan tambahan yang sangat diperlukan untuk menjaga integritas dan keamanan aplikasi secara keseluruhan.
+
+## 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+### 1. **AJAX GET**
+- Saya mengubah kode agar bisa mengambil data mood milik pengguna yang login dengan menggunakan AJAX. 
+- Saya menggunakan `fetch()` untuk mengirim permintaan GET ke endpoint yang disiapkan, memastikan hanya data pengguna yang diambil.
+
+### 2. **AJAX POST**
+- Di halaman utama, saya menambahkan tombol untuk membuka modal yang berisi form untuk menambah mood baru. Modal ini awalnya tersembunyi.
+- Setelah pengguna mengisi form dan mengirimkan data, saya menggunakan `fetch()` dengan metode POST ke endpoint `/create-ajax/`. Setelah berhasil, modal ditutup dan form dibersihkan.
+
+### 3. **Buat View untuk Menambah Mood**
+- Saya membuat view baru di `views.py` untuk menangani permintaan POST, memvalidasi input dari form, dan menyimpan mood ke dalam database.
+
+### 4. **Tambahkan Routing**
+- Saya menambahkan jalur baru di `urls.py` yang mengarah ke view untuk memungkinkan akses dari frontend.
+
+### 5. **Hubungkan Form ke Jalur**
+- Saya memastikan form di modal terhubung dengan jalur `/create-ajax/` sehingga data bisa dikirim dengan benar saat disubmit.
+
+### 6. **Refresh Asinkronus**
+- Setelah mood berhasil ditambahkan, saya memanggil fungsi untuk memperbarui tampilan daftar mood di halaman utama tanpa memuat ulang seluruh halaman.
