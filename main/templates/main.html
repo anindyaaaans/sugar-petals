@@ -1,50 +1,235 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Sugar Petals</title>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+{% endblock meta %}
 {% block content %}
-<h1>Sugar Petals</h1>
+{% include 'navbar.html' %}
+<div class="overflow-x-hidden px-4 md:px-8 pb-8 pt-24 min-h-screen bg-gradient-to-r from-pink-200 to-pink-400 flex flex-col"> <!-- Gradient background -->
+  <div class="p-6 mb-6 relative rounded-lg shadow-lg bg-white bg-opacity-80"> <!-- Added rounded corners and shadow -->
+    <div class="relative grid grid-cols-1 z-30 md:grid-cols-3 gap-8">
+      {% include "card_info.html" with title='NPM' value=npm %}
+      {% include "card_info.html" with title='Name' value=name %}
+      {% include "card_info.html" with title='Class' value=class %}
+    </div>
+    <div class="w-full px-6 absolute top-[44px] left-0 z-20 hidden md:flex">
+      <div class="w-full min-h-4 bg-pink-500 rounded-lg"> <!-- Rounded corners -->
+      </div>
+    </div>
+    <div class="h-full w-full py-6 absolute top-0 left-0 z-20 md:hidden flex">
+      <div class="h-full min-w-4 bg-pink-500 mx-auto rounded-lg"> <!-- Rounded corners -->
+      </div>
+    </div>
+  </div>
+  <div class="px-3 mb-4">
+    <div class="flex rounded-md items-center bg-pink-500 py-2 px-4 w-fit"> 
+      <h1 class="text-white text-center">Last Login: {{ last_login }}</h1>
+    </div>
+  </div>
+  <div class="flex justify-end mb-6">
+    <a href="{% url 'main:create_product_entry' %}" class="bg-pink-400 hover:bg-pink-400 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 mx-4 ">
+      Add New Product Entry
+    </a>
+    <button data-modal-target="crudModal" data-modal-toggle="crudModal" class="btn bg-pink-700 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105" onclick="showModal();">
+      Add New Product Entry by AJAX
+    </button>
+  </div>
+    
+  <div id="product_entry_cards"></div>
+  <div id="crudModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 w-full flex items-center justify-center bg-gray-800 bg-opacity-50 overflow-x-hidden overflow-y-auto transition-opacity duration-300 ease-out">
+    <div id="crudModalContent" class="relative bg-white rounded-lg shadow-lg w-5/6 sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 sm:mx-0 transform scale-95 opacity-0 transition-transform transition-opacity duration-300 ease-out">
+      <!-- Modal header -->
+      <div class="flex items-center justify-between p-4 border-b rounded-t">
+        <h3 class= "text-xl font-semibold text-gray-900">
+          Add New Product Entry
+        </h3>
+        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" id="closeModalBtn">
+          <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+          </svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+      </div>
+      <!-- Modal body -->
+      <div class="px-6 py-4 space-y-6 form-style">
+        <form id="productEntryForm">
+          <div class="mb-4">
+            <label for="name" class="block text-sm font-medium text-gray-700">Name Product</label>
+            <input type="text" id="name" name="name" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-pink-700" placeholder="Enter your product" required>
+          </div>
+          <div class="mb-4">
+            <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+            <input type="number" id="price" name="price" min="1" max="1000000000000000000000000000000000000000000000" class="mt-1 block w-full custom-input" placeholder="Enter your product price" required>
+          </div>
+          <div class="mb-4">
+            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+            <textarea id="description" name="description" rows="3" class="mt-1 block w-full h-52 resize-none border border-gray-300 rounded-md p-2 hover:border-pink-700" placeholder="Describe your product" required></textarea>
+          </div>
+          <div class="mb-4">
+            <label for="sweet_level" class="block text-sm font-medium text-gray-700">Sweet Level (1-10)</label>
+            <input type="number" id="sweet_level" name="sweet_level" min="1" max="10" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-pink-700" required>
+          </div>
+        </form>
+      </div>
+      <!-- Modal footer -->
+      <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 p-6 border-t border-gray-200 rounded-b justify-center md:justify-end">
+        <button type="button" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg" id="cancelButton">Cancel</button>
+        <button type="submit" id="submitProductEntry" class="bg-pink-700 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-lg">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-<h5>NPM: </h5>
-<p>{{ npm }}<p>
+<script>
+  const modal = document.getElementById('crudModal');
+  const modalContent = document.getElementById('crudModalContent');
 
-<h5>Name:</h5>
-<p>{{ name }}</p>
+  function showModal() {
+      const modal = document.getElementById('crudModal');
+      const modalContent = document.getElementById('crudModalContent');
 
-<h5>Class:</h5>
-<p>{{ class }}</p>
+      modal.classList.remove('hidden'); 
+      setTimeout(() => {
+        modalContent.classList.remove('opacity-0', 'scale-95');
+        modalContent.classList.add('opacity-100', 'scale-100');
+      }, 50); 
+  }
 
-{% if not product_entries %}
-<p>Belum ada data product pada sugar petals.</p>
-{% else %}
-<table>
-  <tr>
-    <th>Product Name</th>
-    <th>Price</th>
-    <th>Description</th>
-    <th>Sweet Level</th>
-  </tr>
+  function hideModal() {
+      const modal = document.getElementById('crudModal');
+      const modalContent = document.getElementById('crudModalContent');
 
-  {% comment %} Berikut cara memperlihatkan data product di bawah baris ini 
-  {% endcomment %} 
-  {% for product in product_entries %}
-  <tr>
-    <td>{{product.name}}</td>
-    <td>{{product.price}}</td>
-    <td>{{product.description}}</td>
-    <td>{{product.sweet_level}}</td>
-  </tr>
-  {% endfor %}
-</table>
-{% endif %}
+      modalContent.classList.remove('opacity-100', 'scale-100');
+      modalContent.classList.add('opacity-0', 'scale-95');
 
-<br />
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 150); 
+  }
 
-<a href="{% url 'main:create_product_entry' %}">
-  <button>Add New Product Entry</button>
-</a>
+  document.getElementById("cancelButton").addEventListener("click", hideModal);
+  document.getElementById("closeModalBtn").addEventListener("click", hideModal);
 
-<a href="{% url 'main:logout' %}">
-  <button>Logout</button>
-</a>
+  function addProductEntry() {
+    fetch("{% url 'main:add_product_entry_ajax' %}", {
+      method: "POST",
+      body: new FormData(document.querySelector('#productEntryForm')),
+    })
 
-<h5>Sesi terakhir login: {{ last_login }}</h5>
+    .then(response => {
+        if (response.ok) {
+            refreshProductEntries()
+            document.getElementById("productEntryForm").reset(); 
+            document.querySelector("[data-modal-toggle='crudModal']").click();
+            hideModal();
+            return false;
+        } else {
+            alert("Invalid input!")
+            document.getElementById("productEntryForm").reset();
+        }
+    });
+      
+    document.getElementById("productEntryForm").reset(); 
+    document.querySelector("[data-modal-toggle='crudModal']").click();
+
+    return false;
+  }
+
+  document.getElementById("submitProductEntry").onclick = addProductEntry
+
+  async function getProductEntries(){
+      return fetch("{% url 'main:show_json' %}").then((res) => res.json())
+  }
+
+  async function refreshProductEntries() {
+    document.getElementById("product_entry_cards").innerHTML = "";
+    document.getElementById("product_entry_cards").className = "";
+    const productEntries = await getProductEntries();
+    let htmlString = "";
+    let classNameString = "";
+
+    if (productEntries.length === 0) {
+        classNameString = "flex flex-col items-center justify-center min-h-[24rem] p-6";
+        htmlString = `
+            <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+                <img src="{% static 'image/sedih-banget.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
+                <p class="text-center text-gray-600 mt-4">Belum ada data product pada sugar petals.</p>
+            </div>
+        `;
+    }
+    else {
+        classNameString = "columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 w-full"
+        productEntries.forEach((item) => {
+            const name = DOMPurify.sanitize(item.fields.name);
+            const description = DOMPurify.sanitize(item.fields.description);
+            htmlString += `
+            <div class="relative break-inside-avoid shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:-translate-y-2">
+                <!-- Background Ribbon -->
+                <div class="absolute top-2 z-10 left-1/2 -translate-x-1/2 flex items-center -space-x-2">
+                    <div class="w-[3rem] h-8 bg-pink-300 rounded-md opacity-80 -rotate-45 animate-pulse"></div>
+                    <div class="w-[3rem] h-8 bg-pink-200 rounded-md opacity-80 -rotate-45 animate-pulse"></div>
+                </div>
+                
+                <!-- Card Body -->
+                <div class="relative top-5 bg-pink-100 shadow-lg rounded-lg mb-6 flex flex-col border-2 border-pink-300 transform rotate-1 hover:rotate-0 transition-transform duration-300">
+                    <div class="bg-pink-200 text-gray-800 p-4 rounded-t-lg border-b-2 border-pink-300 flex items-center justify-between">
+                        <h3 class="font-bold text-xl mb-2 font-cursive truncate">${item.fields.name}</h3>
+                        <img src="{% static 'image/candy-icon.png' %}" alt="Candy Icon" class="w-8 h-8 animate-bounce" />
+                    </div>
+                    
+                    <div class="p-4">
+                        <p class="font-semibold text-lg mb-2 text-pink-600">My Sweet Product</p> 
+                        
+                        <!-- New Price and Description Sections -->
+                        <p class="text-gray-800 font-semibold mb-2">Price: <span class="text-pink-600">$${item.fields.price}</span></p>
+                        <p class="text-gray-600 mb-4">${item.fields.description}</p>
+
+                        <div class="mt-4">
+                            <p class="text-gray-700 font-semibold mb-2">Sweet Level</p>
+                            <div class="relative pt-1">
+                                <div class="flex mb-2 items-center justify-between">
+                                    <div>
+                                        <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-pink-600 bg-pink-200">
+                                            ${item.fields.sweet_level > 10 ? '10+' : item.fields.sweet_level}
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-pink-200">
+                                    <div style="width: ${item.fields.sweet_level > 10 ? 100 : item.fields.sweet_level * 10}%;" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-pink-500"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Edit and Delete Icons -->
+                <div class="absolute top-0 -right-4 flex space-x-1">
+                    <a href="/edit-mood/${item.pk}" class="bg-yellow-400 hover:bg-yellow-500 text-white rounded-full p-2 transition duration-300 shadow-md transform hover:scale-110">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                        </svg>
+                    </a>
+                    <a href="/delete/${item.pk}" ${item.pk}" class="bg-red-400 hover:bg-red-500 text-white rounded-full p-2 transition duration-300 shadow-md transform hover:scale-110">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            `;
+        });
+    }
+    document.getElementById("product_entry_cards").className = classNameString;
+    document.getElementById("product_entry_cards").innerHTML = htmlString;
+    document.getElementById("productEntryForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      addProductEntry();
+    })
+}
+refreshProductEntries();
+</script>
 
 {% endblock content %}

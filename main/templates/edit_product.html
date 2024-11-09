@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block meta %}
+<title>Edit Product</title>
+{% endblock meta %}
+
+{% block content %}
+{% include 'navbar.html' %}
+<div class="overflow-x-hidden px-4 md:px-8 pb-8 pt-24 min-h-screen bg-gradient-to-r from-pink-200 to-pink-400 flex flex-col"> <!-- Gradient background -->
+  <div class="p-6 mb-6 relative rounded-lg shadow-lg bg-white bg-opacity-80"> <!-- Added rounded corners and shadow -->
+    <h1 class="text-4xl font-bold text-center mb-8" style="color:#ff69b4; font-family: 'Poppins', sans-serif;">🍭 Edit Your Product Entry 🍭</h1>
+
+    <div class="bg-white shadow-lg rounded-lg p-8 form-style transition-transform transform hover:scale-105">
+      <form method="POST" class="space-y-6">
+          {% csrf_token %}
+          {% for field in form %}
+              <div class="flex flex-col">
+                  <label for="{{ field.id_for_label }}" class="mb-2 font-semibold text-pink-600" style="font-family: 'Poppins', sans-serif;">
+                      {{ field.label }}
+                  </label>
+                  <div class="w-full">
+                      {{ field }}
+                  </div>
+                  {% if field.help_text %}
+                      <p class="mt-1 text-sm text-gray-500 italic">{{ field.help_text }}</p>
+                  {% endif %}
+                  {% for error in field.errors %}
+                      <p class="mt-1 text-sm text-red-600 font-bold">{{ error }}</p>
+                  {% endfor %}
+              </div>
+          {% endfor %}
+          <div class="flex justify-center mt-8">
+              <button type="submit" class="bg-pink-500 hover:bg-pink-600 text-white font-semibold px-8 py-4 rounded-full w-full transition duration-300 ease-in-out" style="font-family: 'Poppins', sans-serif;">
+                  Edit Product Entry
+              </button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
