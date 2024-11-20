@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure--*tv%nwrf3l--k^ny4km@mzhy5n)cz)rg)rfn8ypr25yr+!xy^
 PRODUCTION = os.getenv("PRODUCTION", False)
 DEBUG = not PRODUCTION
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "anindya-nabila-sugarpetals.pbp.cs.ui.ac.id"] # Sudah deploy
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "anindya-nabila-sugarpetals.pbp.cs.ui.ac.id", "10.0.2.2"] # Sudah deploy
 
 
 # Application definition
@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main'
+    'main',
+    'authentication',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -50,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'sugar_petals.urls'
@@ -131,3 +134,10 @@ else:
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_TRUSTED_ORIGINS = ["http://localhost","http://127.0.0.1","http://anindya-nabila-sugarpetals.pbp.cs.ui.ac.id/", "https://anindya-nabila-sugarpetals.pbp.cs.ui.ac.id/"]
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
